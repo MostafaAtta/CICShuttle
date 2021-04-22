@@ -7,14 +7,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.atta.cicshuttle.databinding.ActivityLoginBinding
-import com.atta.cicshuttle.databinding.FragmentRoutesBinding
-import com.atta.cicshuttle.model.Route
 import com.atta.cicshuttle.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -167,7 +164,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         for (document in it) {
 
                             val routeId = document.data!!["routeId"] as String
-                            SessionManager.with(this).saveRouteId(routeId)
+                            val routeName = document.data!!["routeName"] as String
+                            val driverName = document.data!!["driverName"] as String
+                            val driverId = document.data!!["driverId"] as String
+                            SessionManager.with(this).saveRouteData(routeId, routeName, driverName, driverId)
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()

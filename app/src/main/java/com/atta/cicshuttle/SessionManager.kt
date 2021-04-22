@@ -25,6 +25,8 @@ class SessionManager {
         private const val KEY_PHONE = "phone"
         private const val KEY_ROUTE_NAME = "route_name"
         private const val KEY_ROUTE_ID = "route_id"
+        private const val KEY_DRIVER_NAME = "driver_name"
+        private const val KEY_DRIVER_ID = "driver_id"
 
         private var singleton: SessionManager? = null
         private lateinit var pref: SharedPreferences
@@ -78,8 +80,11 @@ class SessionManager {
     }
 
 
-    fun saveRouteId(id: String) {
+    fun saveRouteData(id: String, routeName: String, driverName: String, driverId: String) {
         editor.putString(KEY_ROUTE_ID, id)
+        editor.putString(KEY_ROUTE_NAME, routeName)
+        editor.putString(KEY_DRIVER_ID, driverId)
+        editor.putString(KEY_DRIVER_NAME, driverName)
 
         editor.apply()
     }
@@ -90,6 +95,14 @@ class SessionManager {
         return pref.getString(KEY_ROUTE_ID, "").toString()
     }
 
+    fun getDriverName(): String{
+
+        return pref.getString(KEY_DRIVER_NAME, "").toString()
+    }
+    fun getDriverId(): String{
+
+        return pref.getString(KEY_DRIVER_ID, "").toString()
+    }
 
     private class Builder(val context: Context) {
 

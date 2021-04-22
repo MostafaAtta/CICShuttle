@@ -35,7 +35,6 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        binding.logout.setOnClickListener(this)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -46,6 +45,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         // Initialize Firebase Auth
         auth = Firebase.auth
 
+        binding.logout.setOnClickListener(this)
         binding.emailTxt.text = SessionManager.with(requireContext()).getUserEmail()
 
         return view

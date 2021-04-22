@@ -10,7 +10,6 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.atta.cicshuttle.model.Route
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -45,7 +44,10 @@ class SplashScreenActivity : AppCompatActivity() {
                     if (!it.isEmpty) {
                         for (document in it) {
                             val routeId = document.data!!["routeId"] as String
-                            SessionManager.with(this).saveRouteId(routeId)
+                            val routeName = document.data!!["routeName"] as String
+                            val driverName = document.data!!["driverName"] as String
+                            val driverId = document.data!!["driverId"] as String
+                            SessionManager.with(this).saveRouteData(routeId, routeName, driverName, driverId)
 
                             startHandler()
                         }

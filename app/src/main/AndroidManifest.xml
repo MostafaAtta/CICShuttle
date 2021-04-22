@@ -13,6 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CICShuttle">
+        <activity
+            android:name=".ChatActivity"
+            android:parentActivityName=".MainActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -21,7 +24,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".RegisterActivity"
+        <activity
+            android:name=".RegisterActivity"
             android:theme="@style/Theme.CICShuttle2" />
         <activity
             android:name=".SplashScreenActivity"
@@ -36,10 +40,7 @@
             android:name=".LoginActivity"
             android:theme="@style/Theme.CICShuttle2" />
 
-
-        <receiver
-            android:name=".LocationReceiver"/>
-
+        <receiver android:name=".LocationReceiver" />
     </application>
 
 </manifest>
