@@ -6,12 +6,6 @@ import com.atta.cicshuttle.model.User
 
 class SessionManager {
 
-    private val KEY_USERNAME = "username"
-    private val KEY_USER_ID = "user_id"
-    private val KEY_EMAIL = "email"
-    private val KEY_PHONE = "phone"
-    private val KEY_CITY = "city"
-    private val KEY_IS_LOGIN = "is_login"
 
 
     companion object{
@@ -23,10 +17,14 @@ class SessionManager {
         private const val KEY_USER_ID = "user_id"
         private const val KEY_EMAIL = "email"
         private const val KEY_PHONE = "phone"
+        private const val KEY_ENABLED = "enabled"
         private const val KEY_ROUTE_NAME = "route_name"
         private const val KEY_ROUTE_ID = "route_id"
         private const val KEY_DRIVER_NAME = "driver_name"
         private const val KEY_DRIVER_ID = "driver_id"
+        private const val KEY_COLLEGE_ID = "college_id"
+        private val KEY_LANG = "lang"
+        private val KEY_IS_LANG_SELECTED = "isLanguageSelected"
 
         private var singleton: SessionManager? = null
         private lateinit var pref: SharedPreferences
@@ -51,6 +49,8 @@ class SessionManager {
         editor.putString(KEY_LAST_NAME, user.lastName)
         editor.putString(KEY_PHONE, user.phone)
         editor.putString(KEY_USER_ID, user.id)
+        editor.putBoolean(KEY_ENABLED, user.enabled)
+        editor.putString(KEY_COLLEGE_ID, user.collegeId)
 
         editor.apply()
 
@@ -63,6 +63,41 @@ class SessionManager {
 
     }
 
+    fun enable(enable: Boolean){
+        editor.putBoolean(KEY_ENABLED, enable)
+
+        editor.apply()
+
+    }
+
+    fun isEnabled(): Boolean {
+        return pref.getBoolean(KEY_ENABLED, false)
+    }
+
+    fun getCollegeId(): String{
+
+        return pref.getString(KEY_COLLEGE_ID, "").toString()
+    }
+
+    fun getEmail(): String{
+
+        return pref.getString(KEY_EMAIL, "").toString()
+    }
+
+    fun getPhone(): String{
+
+        return pref.getString(KEY_PHONE, "").toString()
+    }
+    fun getFirstName(): String{
+
+        return pref.getString(KEY_FIRST_NAME, "").toString()
+    }
+    fun getLastName(): String{
+
+        return pref.getString(KEY_LAST_NAME, "").toString()
+    }
+
+
     fun getRouteName(): String{
 
         return pref.getString(KEY_ROUTE_NAME, "").toString()
@@ -73,6 +108,11 @@ class SessionManager {
         return pref.getString(KEY_USER_ID, "").toString()
     }
 
+    fun getUserName(): String{
+
+        return pref.getString(KEY_FIRST_NAME, "").toString() + " " +
+                pref.getString(KEY_LAST_NAME, "").toString()
+    }
 
     fun getUserEmail(): String{
 
@@ -102,6 +142,26 @@ class SessionManager {
     fun getDriverId(): String{
 
         return pref.getString(KEY_DRIVER_ID, "").toString()
+    }
+
+    fun logout() {
+        editor.clear().apply()
+
+    }
+    fun setLanguage(lang: String) {
+
+
+        // Storing national ID in pref
+        editor.putBoolean(KEY_IS_LANG_SELECTED, true)
+        editor.putString(KEY_LANG, lang)
+
+        editor.apply()
+    }
+
+
+    fun getLanguage(): String{
+
+        return pref.getString(KEY_LANG, "ar").toString()
     }
 
     private class Builder(val context: Context) {

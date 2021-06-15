@@ -5,7 +5,11 @@ import java.util.*
 
 data class Message(val text: String,
                    val time: Timestamp,
-                   val senderId: String) {
+                   val senderId: String,
+                   val recipientId: String,
+                   val senderName: String,
+                   val type: String) {
 
-    constructor() : this("", Timestamp(Date(0)), "")
+    constructor() : this("", Timestamp(Date(0)), "", "",
+        "", "")
 }

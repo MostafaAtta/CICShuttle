@@ -21,5 +21,33 @@
     <string name="action_chat">Chat</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="type_a_message">Type a message</string>
+    <string name="sos_call">SOS Call</string>
+    <string name="ambulance">Ambulance</string>
+    <string name="fire_station">Fire station</string>
+    <string name="police">Police</string>
+    <string name="morning_trip">Morning Trip:</string>
+    <string name="start_time">Start Time:</string>
+    <string name="end_time">End Time:</string>
+    <string name="afternoon_trip">Afternoon Trip:</string>
+    <string name="bus_capacity">Bus capacity:</string>
+    <string name="driver">Driver:</string>
+    <string name="request_to_join">Request to join</string>
+    <string name="college_id">College Id</string>
+    <string name="disabled_msg">Account Disabled contact Admin to Enable it</string>
+    <string name="route_error_msg">You aren\'t registered to any route yet</string>
+    <string name="update_your_information">Update Your Information</string>
+    <string name="my_profile">My Profile</string>
+    <string name="language">Language</string>
+    <string name="select_language">Select language</string>
+    <string name="ar">عربي</string>
+    <string name="en">English</string>
+    <string name="update">Update</string>
+    <string name="try_again">Can\'t update record now, please try gain later</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+    <string name="route_details">Route details</string>
+    <string name="profile">Profile</string>
+    <string name="search_route">search a route</string>
+    <string name="current_route">Current Route:</string>
 
 </resources>

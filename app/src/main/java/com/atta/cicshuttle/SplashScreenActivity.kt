@@ -3,6 +3,7 @@ package com.atta.cicshuttle
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -30,7 +32,41 @@ class SplashScreenActivity : AppCompatActivity() {
 
 
         db = Firebase.firestore
-        getRouteData()
+
+        checkUser()
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun checkUser() {
+        val id = SessionManager.with(this).getUserId()
+        if (SessionManager.with(this).getUserId() != "") {
+            db.collection("Users")
+                .document(id)
+                .get()
+                .addOnSuccessListener {
+
+                    val enabled = it.data?.get("enabled") as Boolean
+                    SessionManager.with(this).enable(enabled)
+
+                    if (FirebaseAuth.getInstance().currentUser != null && SessionManager.with(this).isEnabled()){
+
+                        getRouteData()
+                    }else{
+                        startHandler()
+                    }
+
+
+                }
+                .addOnFailureListener {
+
+                    startHandler()
+                    Toast.makeText(this, "get failed with  $it", Toast.LENGTH_SHORT).show()
+                }
+        }else{
+
+            startHandler()
+        }
     }
 
 
@@ -43,14 +79,16 @@ class SplashScreenActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     if (!it.isEmpty) {
                         for (document in it) {
-                            val routeId = document.data!!["routeId"] as String
-                            val routeName = document.data!!["routeName"] as String
-                            val driverName = document.data!!["driverName"] as String
-                            val driverId = document.data!!["driverId"] as String
+                            val routeId = document.data["routeId"] as String
+                            val routeName = document.data["routeName"] as String
+                            val driverName = document.data["driverName"] as String
+                            val driverId = document.data["driverId"] as String
                             SessionManager.with(this).saveRouteData(routeId, routeName, driverName, driverId)
 
                             startHandler()
                         }
+                    }else{
+                        startHandler()
                     }
                 }
                 .addOnFailureListener {
@@ -69,6 +107,7 @@ class SplashScreenActivity : AppCompatActivity() {
         // we used the postDelayed(Runnable, time) method
         // to send a message with a delayed time.
         Handler(Looper.getMainLooper()).postDelayed({
+            changeLanguage(SessionManager.with(this).getLanguage())
             val result = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
 
             if (result != PackageManager.PERMISSION_GRANTED) {
@@ -110,6 +149,14 @@ class SplashScreenActivity : AppCompatActivity() {
         }
     }
 
+    private fun changeLanguage(language: String) {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+    }
 
     companion object {
         // This is the loading time of the splash screen

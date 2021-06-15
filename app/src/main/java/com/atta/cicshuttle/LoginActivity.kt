@@ -142,8 +142,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         val user = document.toObject(User::class.java)
                         user.id = document.id
                         SessionManager.with(this).login(user)
-
-                        getRouteData(document.id)
+                        if (user.enabled){
+                            getRouteData(document.id)
+                        }else{
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
                     }
                 }
             }
@@ -156,17 +161,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getRouteData(id: String) {
         if (SessionManager.with(this).getUserId() != "") {
-            db.collection("Routes")
-                .whereEqualTo("driverId", id)
+            db.collection("user_route")
+                .whereEqualTo("userId", id)
                 .get()
                 .addOnSuccessListener {
                     if (!it.isEmpty) {
                         for (document in it) {
 
-                            val routeId = document.data!!["routeId"] as String
-                            val routeName = document.data!!["routeName"] as String
-                            val driverName = document.data!!["driverName"] as String
-                            val driverId = document.data!!["driverId"] as String
+                            val routeId = document.data["routeId"] as String
+                            val routeName = document.data["routeName"] as String
+                            val driverName = document.data["driverName"] as String
+                            val driverId = document.data["driverId"] as String
                             SessionManager.with(this).saveRouteData(routeId, routeName, driverName, driverId)
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)

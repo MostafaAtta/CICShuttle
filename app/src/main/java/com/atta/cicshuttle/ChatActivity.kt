@@ -13,6 +13,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.SetOptions
 import java.util.*
 
 class ChatActivity : AppCompatActivity() {
@@ -26,6 +27,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var currentChannelId: String
 
     var messages: ArrayList<Message> = ArrayList()
+    
     private lateinit var otherUserId: String
 
     lateinit var messagesAdapter: MessagesAdapter
@@ -50,7 +52,7 @@ class ChatActivity : AppCompatActivity() {
     private fun getOrCreateChatChannel(){
         db.collection("Users").document(SessionManager.with(this).getUserId())
                 .collection("EngagedChatChannels")
-                .document(SessionManager.with(this).getDriverId())
+                .document(otherUserId)
                 .get()
                 .addOnSuccessListener {
                     if (it.exists()){
@@ -60,16 +62,16 @@ class ChatActivity : AppCompatActivity() {
 
                         val newChannel =  db.collection("ChatChannels").document()
 
-                        newChannel.set(ChatChannel(mutableListOf(SessionManager.with(this).getUserId(), SessionManager.with(this).getDriverId())))
+                        newChannel.set(ChatChannel(mutableListOf(SessionManager.with(this).getUserId(), otherUserId)))
 
                         db.collection("Users").document(SessionManager.with(this).getUserId())
                                 .collection("EngagedChatChannels")
-                                .document(SessionManager.with(this).getDriverId())
+                                .document(otherUserId)
                                 .set(mapOf("channelId" to newChannel.id))
 
-                        db.collection("Drivers").document(SessionManager.with(this).getDriverId())
+                        db.collection("Drivers").document(otherUserId)
                                 .collection("EngagedChatChannels")
-                                .document(SessionManager.with(this).getDriverId())
+                                .document(SessionManager.with(this).getUserId())
                                 .set(mapOf("channelId" to newChannel.id))
 
                         currentChannelId = newChannel.id
@@ -79,7 +81,10 @@ class ChatActivity : AppCompatActivity() {
 
                     binding.sendImg.setOnClickListener {
                         val msg = Message(binding.editTextMessage.text.toString(),
-                                Timestamp(Calendar.getInstance().time), SessionManager.with(this).getUserId())
+                                Timestamp(Calendar.getInstance().time),
+                                SessionManager.with(this).getUserId(),
+                                otherUserId, SessionManager.with(this).getUserName(),
+                            "to driver")
 
                         binding.editTextMessage.setText("")
 
@@ -146,6 +151,19 @@ class ChatActivity : AppCompatActivity() {
         db.collection("ChatChannels").document(currentChannelId)
                 .collection("messages")
                 .add(message)
+                .addOnSuccessListener {
+                    db.collection("Users").document(SessionManager.with(this).getUserId())
+                            .collection("EngagedChatChannels")
+                            .document(otherUserId)
+                            .set(mapOf("lastMessage" to message), SetOptions.merge())
+
+                    db.collection("Drivers").document(otherUserId)
+                            .collection("EngagedChatChannels")
+                            .document(SessionManager.with(this).getUserId())
+                            .set(mapOf("lastMessage" to message), SetOptions.merge())
+                }
+
+
     }
 
 

@@ -1,9 +1,10 @@
 package com.atta.cicshuttle.adapters
 
 import android.app.Activity
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.atta.cicshuttle.R
@@ -12,9 +13,17 @@ import com.atta.cicshuttle.model.Route
 import com.atta.cicshuttle.ui.RoutesFragmentDirections
 import java.util.*
 
-open class RoutesAdapter (private val data: List<Route>,
+open class RoutesAdapter (private val data: ArrayList<Route>,
                           private val activity: Activity):
-    RecyclerView.Adapter<RoutesAdapter.MyViewHolder>() {
+    RecyclerView.Adapter<RoutesAdapter.MyViewHolder>(), Filterable {
+
+    var routesFilterList = ArrayList<Route>()
+    var routesFullList = ArrayList<Route>()
+
+    init {
+        routesFilterList = data
+        routesFullList = ArrayList<Route>(data)
+    }
 
     inner class MyViewHolder(val binding: RoutesItemBinding): RecyclerView.ViewHolder(binding.root){
 
@@ -33,8 +42,8 @@ open class RoutesAdapter (private val data: List<Route>,
         with(holder){
             with(route){
                 binding.routeName.text = name
-                binding.startTime.text = startTime
-                binding.endTime.text = arrivalTime
+                binding.startTime.text = morningTimes["startTime"]
+                binding.endTime.text = afternoonTimes["startTime"]
 
             }
 
@@ -46,7 +55,37 @@ open class RoutesAdapter (private val data: List<Route>,
         }
     }
 
+    @ExperimentalStdlibApi
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                var filteredList = ArrayList<Route>()
+                if (constraint == null || constraint.isEmpty()) {
+                    filteredList = routesFullList
+                } else {
+                    val charSearch = constraint.toString().toLowerCase(Locale.ROOT).trim()
+                    for (row in data) {
+                        if (row.name.lowercase(Locale.ROOT).contains(charSearch)) {
+                            filteredList.add(row)
+                        }
+                    }
+                }
+                val filterResults = FilterResults()
+                filterResults.values = filteredList
+                return filterResults
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                routesFilterList.clear()
+                routesFilterList.addAll(results?.values as ArrayList<Route>)
+                notifyDataSetChanged()
+            }
+
+        }
+    }
+
     override fun getItemCount(): Int {
-        return  data.size
+        return  routesFilterList.size
     }
 }

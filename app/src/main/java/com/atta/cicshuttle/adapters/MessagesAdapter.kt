@@ -40,14 +40,14 @@ open class MessagesAdapter (private val data: List<Message>,
                     binding.root.apply {
                         binding.backgroundLy.setBackgroundResource(R.drawable.rect_round_white)
                         val lParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.END)
-                        this.layoutParams = lParams
+                        binding.backgroundLy.layoutParams = lParams
                     }
                 }
                 else {
                     binding.root.apply {
                         binding.backgroundLy.setBackgroundResource(R.drawable.rect_round_primary_color)
                         val lParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.START)
-                        this.layoutParams = lParams
+                        binding.backgroundLy.layoutParams = lParams
                     }
                 }
                 binding.textViewMessageText.text = text

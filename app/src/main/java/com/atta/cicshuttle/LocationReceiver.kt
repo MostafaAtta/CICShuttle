@@ -11,7 +11,7 @@ import java.lang.Exception
 
 class LocationReceiver : BroadcastReceiver(){
     companion object{
-        const val ACTION_LOCATION_UPDATE = "com.atta.cicdriver.updateLocation"
+        const val ACTION_LOCATION_UPDATE = "com.atta.cicshuttle.updateLocation"
     }
     override fun onReceive(context: Context?, intent: Intent?) {
 

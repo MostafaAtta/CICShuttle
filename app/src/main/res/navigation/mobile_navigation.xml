@@ -25,14 +25,23 @@
         android:id="@+id/navigation_settings"
         android:name="com.atta.cicshuttle.ui.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_navigation_settings_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/routeDetailsFragment"
         android:name="com.atta.cicshuttle.ui.RouteDetailsFragment"
-        android:label="fragment_route_details"
+        android:label="@string/route_details"
         tools:layout="@layout/fragment_route_details" >
         <argument
             android:name="route"
             app:argType="com.atta.cicshuttle.model.Route" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.atta.cicshuttle.ui.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

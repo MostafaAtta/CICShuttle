@@ -11,12 +11,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.atta.cicshuttle.LocationReceiver
 import com.atta.cicshuttle.R
 import com.atta.cicshuttle.SessionManager
@@ -31,7 +28,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -40,11 +36,9 @@ class HomeFragment : Fragment() {
 
     private lateinit var mMap: GoogleMap
 
-    lateinit var mLocation: Location
+    private lateinit var locationRequest: LocationRequest
 
-    lateinit var locationRequest: LocationRequest
-
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private lateinit var db: FirebaseFirestore
 
@@ -65,6 +59,18 @@ class HomeFragment : Fragment() {
         //mMap.isMyLocationEnabled = true
         updateLocation()
 
+        if (context?.let { SessionManager.with(it).getRouteId() } != null ) {
+            if (context?.let {SessionManager.with(it).getRouteId()} != "" &&
+                context?.let {SessionManager.with(it).isEnabled()}!!) {
+                getRouteDriverLocation()
+            }else if (!context?.let {SessionManager.with(it).isEnabled()}!!){
+                Toast.makeText(requireContext(), getString(R.string.disabled_msg), Toast.LENGTH_LONG).show()
+            }else if (context?.let {SessionManager.with(it).getRouteId()} == ""){
+                Toast.makeText(requireContext(), getString(R.string.route_error_msg), Toast.LENGTH_LONG).show()
+
+            }
+        }
+
     }
 
     override fun onCreateView(
@@ -84,7 +90,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapFrag) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }
 
@@ -115,14 +121,15 @@ class HomeFragment : Fragment() {
 
         val icon2: BitmapDescriptor = BitmapDescriptorFactory
                 .fromResource(R.drawable.passenger)
-        val myLatLng2 = LatLng(30.058205443102477, 31.345448798902545)
+        //val myLatLng2 = LatLng(30.058205443102477, 31.345448798902545)
+        val myLatLng2 = LatLng(location.latitude, location.longitude)
         var marker2 = MarkerOptions().position(myLatLng2)
                 //.title(routeName)
                 .icon(icon2)
         mMap.addMarker(marker2)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLatLng2, 14f))
 
-        getRouteDriverLocation()
+
     }
 
     private fun updateLocation(){
@@ -174,7 +181,7 @@ class HomeFragment : Fragment() {
                 }
     }
 
-    fun addBusMarker(latLng: LatLng){
+    private fun addBusMarker(latLng: LatLng){
         val icon: BitmapDescriptor = BitmapDescriptorFactory
             .fromResource(R.drawable.school_bus_marker)
 
