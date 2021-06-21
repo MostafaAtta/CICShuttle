@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CIC Shuttle</string>
+    <string name="welcome">اهلا بك</string>
+
+    <string name="login">من فضلك استخدم حساب جوجل لتسجيل الدخول</string>
+
+    <string name="title_activity_main">العام</string>
+
+    <string name="title_home">الصفحة الرئيسية</string>
+
+    <string name="title_dashboard">القائمة</string>
+
+    <string name="title_notifications">الاشعارات</string>
+
+    <string name="title_settings">الاعدادات</string>
+
+    <string name="logout">تسجيل الخروج</string>
+
+    <string name="account_details">بيانات الحساب</string>
+
+    <string name="complete_your_information">تكمله البيانات</string>
+
+    <string name="done">تم</string>
+
+    <string name="email">الايميل</string>
+
+    <string name="first_name">الاسم الاول</string>
+
+    <string name="last_name">اسم العائلة</string>
+
+    <string name="phone">رقم المحمول</string>
+
+    <string name="title_routes">الخطوط</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="action_chat">ارسال</string>
+
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+
+    <string name="type_a_message">اكتب</string>
+
+    <string name="sos_call">الطوارئ</string>
+
+    <string name="ambulance">الاسعاف</string>
+
+    <string name="fire_station">المطافي</string>
+
+    <string name="police">الشرطة</string>
+
+
+    <string name="morning_trip">الرحلة الصباحية:</string>
+
+    <string name="start_time">توقيت بدا الرحلة:</string>
+
+    <string name="end_time">توقيت انتهاء الرحلة:</string>
+
+    <string name="afternoon_trip">الرحلة المسائية:</string>
+
+    <string name="bus_capacity">عدد الطلاب:</string>
+
+    <string name="driver">السائق:</string>
+
+    <string name="request_to_join">ارسال طلب الوصول</string>
+
+    <string name="college_id">رقم الاي دي</string>
+
+    <string name="disabled_msg">برجاء التواصل مع الادمن لتفعيل حسابك</string>
+
+    <string name="route_error_msg">لست مسجل في خط</string>
+
+    <string name="update_your_information">حدث بياناتك</string>
+
+    <string name="my_profile">حسابي</string>
+
+    <string name="language">اللغة</string>
+
+    <string name="select_language">اللغة</string>
+
+    <string name="ar">عربي</string>
+
+    <string name="en">English</string>
+
+    <string name="update">تحديث</string>
+
+    <string name="try_again">حاول مرة اخري</string>
+
+    <string name="enabled">تم التفعيل</string>
+
+    <string name="disabled">تم اللغاء التفعيل</string>
+
+    <string name="route_details">تفاصيل الخطوط</string>
+
+    <string name="profile">الحساب</string>
+
+    <string name="search_route">بحث</string>
+
+    <string name="current_route">الخط الحالي:</string>
+</resources>
