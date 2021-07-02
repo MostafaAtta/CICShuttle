@@ -14,7 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import java.util.*
 
-private const val CHANNEL_ID = "my_channel"
+
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private val TAG = "FireBaseMessagingService"
@@ -76,5 +76,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val useWhiteIcon =
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
         return if (useWhiteIcon) R.mipmap.ic_launcher else R.mipmap.ic_launcher
+    }
+
+    companion object {
+        private const val CHANNEL_ID = "my_channel"
     }
 }
